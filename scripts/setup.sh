@@ -23,3 +23,5 @@ source $HOME/.bashrc
 
 crontab $HOME/ton-scripts/configs/cron.config
 crontab -l
+
+touch $HOME/serverno
