@@ -14,7 +14,7 @@ sudo apt update -y && sudo apt install git wget curl jq bc -y
 # mytonctrl install
 wget https://raw.githubusercontent.com/igroman787/mytonctrl/master/scripts/install.sh
 sudo bash install.sh -m full
-#sudo chmod 777 /var/ton-work/db/config.json
+sudo chmod 755 /var/ton-work/db/config.json
 #sudo chmod 777 $HOME/.local/share/mytonctrl
 mytonctrl <<< "set stake 0"
 rm $HOME/install.sh
