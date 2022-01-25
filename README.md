@@ -16,15 +16,37 @@ sudo chown -R username:username /home/username/.ssh
 
 ---
 
-ton-scripts/scripts
+> 생성한 계정으로 접속
 
-1. mytonctrl 포함 node 셋팅
+1. node 셋팅
 
 ```
-setup.sh
+cd $HOME/ton-scripts/scripts
+./setup.sh
+source $HOME/.bashrc
 ```
 
-2. alarm 설정
+2. 첫 Election은 수동으로 참여
+
+```
+mytonctrl <<< "set stake [amount]"
+mytonctrl <<< ve
+
+# 약 20초 후 일렉션 참여 확인
+sleep 20
+state
+```
+
+- [amount]: ton 수량으로 기입
+- 첫 election 참여 후 crontab의 operator-stake.sh 라인 주석 제거
+
+3. serverno file에 서버 별칭 기입
+
+```
+echo "your server alias" > $HOME/serverno
+```
+
+4. telegram alarm 설정
 
 - telegram-api.json 파일에 bot token 과 chat id 기입
 - crontab의 tg-index.sh 라인 주석 제거

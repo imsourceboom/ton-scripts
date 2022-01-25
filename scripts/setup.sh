@@ -16,6 +16,7 @@ wget https://raw.githubusercontent.com/igroman787/mytonctrl/master/scripts/insta
 sudo bash install.sh -m full
 #sudo chmod 777 /var/ton-work/db/config.json
 #sudo chmod 777 $HOME/.local/share/mytonctrl
+mytonctrl <<< "set stake 0"
 rm $HOME/install.sh
 
 # .bashrc copy
