@@ -48,5 +48,12 @@ echo "your server alias" > $HOME/serverno
 
 4. telegram alarm 설정
 
-- telegram-api.json 파일에 bot token 과 chat id 기입
+- $HOME/ton-scripts/scripts/telegram-api.json 파일에 bot token 과 chat id 기입
 - crontab의 tg-index.sh 라인 주석 제거
+
+5. node 운영 중 Disk 관련 Alarm이 올 경우
+
+```
+cd $HOME/ton-scripts/scripts
+./operator-clean-disk.sh
+```
