@@ -15,7 +15,7 @@ if [ $ELECTIONS_ID = "-1" ]; then
 fi
 
 if [ $ELECTIONS_ID = "0" ]; then
-	echo "NOT_ELECTION";
+	echo "NOT_ELECTION"
 	exit
 fi
 
