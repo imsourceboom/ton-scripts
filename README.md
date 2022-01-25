@@ -1,7 +1,18 @@
 # TON Node Management Scripts
 
-- user 계정 생성 후 sudo 권한 부여
-- user 계정 접속 후 ssh 셋팅
+- user 계정 생성 후 sudo 권한 부여 (example: username)
+
+```
+sudo adduser username
+sudo usermod -aG sudo username
+```
+
+- ssh 셋팅
+
+```
+sudo cp -r $HOME/.ssh /home/username
+sudo chown -R username:username /home/username/.ssh
+```
 
 ---
 

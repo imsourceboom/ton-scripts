@@ -1,4 +1,4 @@
-#!/bin/bash -i
+#!/bin/bash
 
 cd $HOME
 
@@ -15,13 +15,19 @@ sudo apt update -y && sudo apt install git wget curl jq bc -y
 wget https://raw.githubusercontent.com/igroman787/mytonctrl/master/scripts/install.sh
 sudo bash install.sh -m full
 #sudo chmod 777 /var/ton-work/db/config.json
-mytonctrl <<< exit
+#sudo chmod 777 $HOME/.local/share/mytonctrl
 rm $HOME/install.sh
 
+# .bashrc copy
 cp $HOME/ton-scripts/configs/bash.config $HOME/.bashrc
-source $HOME/.bashrc
 
+# crontab copy
 crontab $HOME/ton-scripts/configs/cron.config
 crontab -l
 
+# create server name file
 touch $HOME/serverno
+
+echo "--------------------"
+echo "Please run command"
+echo "source $HOME/.bashrc"
