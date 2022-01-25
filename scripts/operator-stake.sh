@@ -16,7 +16,7 @@ if [ $ELECTION_STATE != "ACTIVE" ]; then
 fi
 
 if [ $(($CURRENT_TIME - $ELECTION_START)) -lt 100 ]; then
-	echo "NOT CHECK TIME"
+	echo "DONT VOTE YET"
 	exit
 fi
 
