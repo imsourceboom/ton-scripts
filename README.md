@@ -10,6 +10,10 @@ sudo usermod -aG sudo username
 - ssh 셋팅
 
 ```
+mkdir -p $HOME/.ssh
+echo "your ssh-rsa key" >> $HOME/.ssh/authorized_keys
+sudo chmod 700 $HOME/.ssh
+sudo chmod 600 $HOME/.ssh/authorized_keys
 sudo cp -r $HOME/.ssh /home/username
 sudo chown -R username:username /home/username/.ssh
 ```
