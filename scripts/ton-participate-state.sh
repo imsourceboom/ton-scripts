@@ -23,7 +23,7 @@ ELECTOR_PARTS_LIST=$($LITE_CLIENT "runmethodfull $ELECTOR_ADDR participant_list_
 ELECTIONS_OPEN=`echo $ELECTOR_PARTS_LIST | grep -F '0 0 0 0 () 0 0'`
 
 if [[ -n $ELECTIONS_OPEN ]]; then
-	echo "NOT ELECTION OPEN"
+	echo "NOT_ELECTION"
 	exit
 fi
 

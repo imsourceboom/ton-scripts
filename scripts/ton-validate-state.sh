@@ -6,7 +6,7 @@ CONFIG_JSON=$(cat /var/ton-work/db/config.json)
 VALIDATORS_COUNT=$(echo $CONFIG_JSON | jq ".validators|length")
 
 if [ $VALIDATORS_COUNT = 0 ]; then
-	echo "No validator ADNL"
+	echo "NO_VALIDATOR_ADNL"
 	exit
 fi
 
