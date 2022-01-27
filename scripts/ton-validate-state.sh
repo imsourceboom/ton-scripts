@@ -15,7 +15,7 @@ if [ $VALIDATORS_COUNT -gt 0 ]; then
 	do
 		ADNL_ID=$(echo $CONFIG_JSON | jq -r ".validators[$i].adnl_addrs[0].id")
 		ADNL_ID_HEX=$($SCRIPTS_DIR/base64-to-hex.sh $ADNL_ID)
-		FIND_ADNL=$($LITE_CLIENT "getconfig 34" | grep $ADNL_ID_HEX | awk -F 'adnl_addr:' '{print $2}' | tr -d 'adnl_addr:x)')
+		FIND_ADNL=$($LITE_CLIENT "getconfig 34" | grep $ADNL_ID_HEX | awk -F 'adnl_addr:' '{print $2}' | tr -d 'x)')
 		
 		if [ -z $FIND_ADNL ]; then
 			echo "NOT_VALIDATE"
