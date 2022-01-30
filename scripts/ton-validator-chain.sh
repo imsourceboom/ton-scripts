@@ -29,8 +29,10 @@ if [ $VALIDATORS_COUNT -gt 0 ]; then
 
 				if [ $(($j - 1)) -lt 100 ]; then
 					echo "Chain: Master"
+					exit
 				else
 					echo "Chain: Shard"
+					exit
 				fi
 			fi
 		done
