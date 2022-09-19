@@ -9,7 +9,7 @@ echo "$USER  ALL=(ALL:ALL)  NOPASSWD:ALL" | sudo tee -a /etc/sudoers
 sudo ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 
 # package install
-sudo apt update -y && sudo apt install git wget curl jq bc -y
+sudo apt update -y && sudo apt install git wget curl jq bc cron -y
 
 # mytonctrl install
 wget https://raw.githubusercontent.com/ton-blockchain/mytonctrl/master/scripts/install.sh
