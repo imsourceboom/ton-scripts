@@ -16,6 +16,7 @@ sudo chmod 700 $HOME/.ssh
 sudo chmod 600 $HOME/.ssh/authorized_keys
 sudo cp -r $HOME/.ssh /home/username
 sudo chown -R username:username /home/username/.ssh
+sudo chmod 600 /home/username/.ssh/authorized_keys
 ```
 
 ---
