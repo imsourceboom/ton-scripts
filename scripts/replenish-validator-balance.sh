@@ -7,7 +7,6 @@ LIMIT_AMOUNT=100
 VALIDATOR_BALANCE=$(mytonctrl <<< "wl" | grep "validator_wallet_001" | awk '{print $3}' | cut -d '.' -f 1)
 GET_STAKE_VALUE=$(jq '.stake' $HOME/.local/share/mytoncore/mytoncore.db)
 
-
 if [ $VALIDATOR_BALANCE -gt $LIMIT_AMOUNT ]; then
 	echo "VALIDATOR BALANCE ENOUGH"
 	if [ $GET_STAKE_VALUE = "null" ]; then
@@ -36,8 +35,8 @@ if [ $VALIDATOR_BALANCE -lt $LIMIT_AMOUNT ]; then
 			if [ $REMAIN_TIME -lt $LIMIT_TIME ]; then 
 				if [ $GET_STAKE_VALUE = "0" ]; then
 					mytonctrl <<< "set stake null"
-					exit
 				fi
+				exit
 			fi
 		fi
 	fi 

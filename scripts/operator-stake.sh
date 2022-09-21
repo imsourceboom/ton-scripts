@@ -2,7 +2,11 @@
 
 source "$HOME/ton-scripts/scripts/env.sh"
 
-mytonctrl <<< "set stake 0"
+GET_STAKE_VALUE=$(jq '.stake' $HOME/.local/share/mytoncore/mytoncore.db)
+
+if [ $GET_STAKE_VALUE != "0" ]; then
+	mytonctrl <<< "set stake 0"
+fi
 
 ELECTION_STATE=$($SCRIPTS_DIR/ton-election-state.sh)
 if [ $ELECTION_STATE != "ACTIVE" ]; then
@@ -12,9 +16,9 @@ fi
 
 CURRENT_TIME=$(date +%s)
 ELECTION_START=$($SCRIPTS_DIR/ton-election-start.sh)
-if [ $(($CURRENT_TIME - $ELECTION_START)) -lt 100 ]; then
+if [ $(($CURRENT_TIME - $ELECTION_START)) -lt 10 ]; then
 	echo "DONT VOTE YET"
-	exit
+	sleep $((RANDOM % 11 + 10))
 fi
 
 ELECTION_END=$($SCRIPTS_DIR/ton-election-end.sh)
@@ -29,5 +33,5 @@ if [ $PARTICIPATE = "ACTIVE" ]; then
 	exit
 fi
 
-sleep $((RANDOM % 200))
+sleep $((RANDOM % 11 + 10))
 $SCRIPTS_DIR/operator-participate.sh
