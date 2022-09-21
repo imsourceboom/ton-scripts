@@ -8,7 +8,7 @@ sleep 20
 BALANCE=$(mytonctrl <<< wl | grep validator_wallet_001 | awk '{print $3}' | cut -d '.' -f 1)
 RANDOM_DEDUCT=$((RANDOM % 5 + 3))
 STAKE=$(($BALANCE - $RANDOM_DEDUCT))
-MIN_STAKE=250000
+MIN_STAKE=300000
 
 if [ $STAKE -lt $MIN_STAKE ]; then
 	echo "ERROR: Lack of Amount"
