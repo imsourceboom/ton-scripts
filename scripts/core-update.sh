@@ -18,4 +18,4 @@ cat $TMP_CORE | sudo tee $MYTONCORE >/dev/null
 cat $MYTONCORE | grep 'deduct'
 sudo systemctl restart mytoncore.service
 systemctl status mytoncore.service | grep 'Active'
-mytonctrl <<< "wl" | grep 'validator_wallet_001'
+mytonctrl <<< "set stake null"
