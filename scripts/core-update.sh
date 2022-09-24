@@ -6,8 +6,9 @@ TMP_CORE="/tmp/mytoncore.py"
 sudo cp $MYTONCORE /tmp
 sudo chown $USER:$USER $TMP_CORE
 
-#sed -i "/sp = stakePercent \/ 100/a\                        deduct = random.randint(4, 8)" $TMP_CORE
-sed -i "/sp = stakePercent \/ 100/a\ \t\t\tdeduct = random.randint(4, 8)" $TMP_CORE
+SP_TO_DEDUCT=$(cat $TMP_CORE | grep 'sp = stakePercent' | sed -e "s/sp = stakePercent \/ 100/deduct = random.randint(4, 8)/")
+
+sed -i "/sp = stakePercent \/ 100/a\ $SP_TO_DEDUCT" $TMP_CORE
 sed -i "/stake = int(account.balance\*sp/a\                                stake = account.balance - deduct" $TMP_CORE
 sed -i "s/stake = int(account.balance\*sp\/2)/#stake = int(account.balance\*sp\/2)/" $TMP_CORE
 sed -i "s/stake = int(account.balance\*sp)/#stake = int(account.balance\*sp)/" $TMP_CORE
