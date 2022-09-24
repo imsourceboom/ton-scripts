@@ -11,7 +11,7 @@ sed -i "/stake = int(account.balance\*sp/a\                                stake
 sed -i "s/stake = int(account.balance\*sp\/2)/#stake = int(account.balance\*sp\/2)/" $TMP_CORE
 sed -i "s/stake = int(account.balance\*sp)/#stake = int(account.balance\*sp)/" $TMP_CORE
 
-cat $TMP_CORE | sudo tee $MYTONCORE /dev/null
+cat $TMP_CORE | sudo tee $MYTONCORE >/dev/null
 
 cat $MYTONCORE | grep 'deduct'
 sudo systemctl restart mytoncore.service
