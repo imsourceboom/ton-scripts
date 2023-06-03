@@ -43,7 +43,6 @@ state
 ```
 
 - [amount]: ton 수량으로 기입
-- 첫 election 참여 후 crontab의 operator-stake.sh 라인 주석 제거
 
 3. serverno file에 서버 별칭 기입
 
