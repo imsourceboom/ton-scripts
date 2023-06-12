@@ -1,5 +1,7 @@
 #!/bin/bash
-PORT=$(cat /var/ton-work/db/config.json | grep port | awk  'FNR == 3 {print $3}')
+
+source "$HOME/ton-scripts/scripts/env.sh"
+
 CURRENT_UNIXTIME=$(date +%s)
 CURRENT_HUMANTIME=$(date)
 #COLORS
@@ -11,13 +13,10 @@ BLUE='\e[34m'
 CYAN='\e[36m'
 GREEN_BACKGROUND='\e[42m'
 
-CHECK_ELECTION_STATUS=$(cd ~/lite-client && ./lite-client \
--p /var/ton-work/keys/liteserver.pub -a 127.0.0.1:$PORT \
--rc "runmethodfull -1:3333333333333333333333333333333333333333333333333333333333333333 active_election_id" -rc \
-'quit' 2>/dev/null | awk 'FNR == 5 {print $3}')
-
+CHECK_ELECTION_STATUS=$($LITE_CLIENT "runmethodfull $ELECTOR_ADDR active_election_id" | awk 'FNR == 5 {print $3}')
 
 NODE_PUBKEY=$(mytonctrl <<< status fast | grep ADNL |  awk '{print $6}' | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g")
+
 if [ "$CHECK_ELECTION_STATUS" != 0 ];
 then
   file="/tmp/mytoncore/"$CHECK_ELECTION_STATUS"_ElectionEntry.json"
@@ -32,18 +31,10 @@ then
 fi
 
 echo ${site^h}
-GETCONFIG15=$(cd ~/lite-client && ./lite-client \
--p /var/ton-work/keys/liteserver.pub -a 127.0.0.1:$PORT \
--rc 'getconfig 15' -rc 'quit' 2>/dev/null)
-GETCONFIG32=$(cd ~/lite-client && ./lite-client \
--p /var/ton-work/keys/liteserver.pub -a 127.0.0.1:$PORT \
--rc 'getconfig 32' -rc 'quit' 2>/dev/null)
-GETCONFIG34=$(cd ~/lite-client && ./lite-client \
--p /var/ton-work/keys/liteserver.pub -a 127.0.0.1:$PORT \
--rc 'getconfig 34' -rc 'quit' 2>/dev/null)
-GETCONFIG36=$(cd ~/lite-client && ./lite-client \
--p /var/ton-work/keys/liteserver.pub -a 127.0.0.1:$PORT \
--rc 'getconfig 36' -rc 'quit' 2>/dev/null)
+GETCONFIG15=$($LITE_CLIENT "getconfig 15")
+GETCONFIG32=$($LITE_CLIENT "getconfig 32")
+GETCONFIG34=$($LITE_CLIENT "getconfig 34")
+GETCONFIG36=$($LITE_CLIENT "getconfig 36")
 
 ELECTION_START_BEFORE=$(echo "${GETCONFIG15}" | awk 'FNR == 4 {print $5}' | tr -d 'elections_start_before:')
 ELECTION_END_BEFORE=$(echo "${GETCONFIG15}" | awk 'FNR == 4 {print $6}' | tr -d 'elections_end_before:')
@@ -51,10 +42,7 @@ ELECTION_END_BEFORE=$(echo "${GETCONFIG15}" | awk 'FNR == 4 {print $6}' | tr -d 
 
 CHECK_TRANSITION_STATUS=$(echo "${GETCONFIG36}" | awk 'FNR == 4 {print $3}')
 
-CHECK_ELECTION_SUBMISSION=$(cd ~/lite-client && ./lite-client \
--p /var/ton-work/keys/liteserver.pub -a 127.0.0.1:$PORT \
--rc "runmethodfull -1:3333333333333333333333333333333333333333333333333333333333333333 participates_in ${NODE_X_PUBKEY}" \
--rc 'quit' 2>/dev/null | awk 'FNR == 5 {print $3}')
+CHECK_ELECTION_SUBMISSION=$($LITE_CLIENT "runmethodfull $ELECTOR_ADDR participates_in ${NODE_X_PUBKEY}" | awk 'FNR == 5 {print $3}')
 SUBMISSION_CHECK=10000
 
 if [ $CHECK_ELECTION_SUBMISSION -le $SUBMISSION_CHECK ]
@@ -137,30 +125,18 @@ NEXT_NETWORK_WEIGHT=$(echo "${GETCONFIG36}" | grep 'total_weight' | awk '{print 
 NEXT_MY_WEIGHT_PERCENTAGE=$(echo "scale=9; ${NEXT_MY_WEIGHT:=1}/${NEXT_NETWORK_WEIGHT:=1}" | bc -l)
 NEXT_MY_STAKED_TOKENS=$(echo "scale=9; ${CHECK_ELECTION_SUBMISSION:=1}/1000000000" | bc -l)
 
-PREVIOUS_TOTAL_STAKE=$(cd ~/lite-client && ./lite-client \
--p /var/ton-work/keys/liteserver.pub -a 127.0.0.1:$PORT \
--rc "runmethodfull -1:3333333333333333333333333333333333333333333333333333333333333333 past_elections" -rc 'quit' 2>/dev/null | awk 'FNR == 5 {print $8}')
-PREVIOUS_TOTAL_BONUS=$(cd ~/lite-client && ./lite-client \
--p /var/ton-work/keys/liteserver.pub -a 127.0.0.1:$PORT \
--rc "runmethodfull -1:3333333333333333333333333333333333333333333333333333333333333333 past_elections" -rc 'quit' 2>/dev/null | awk 'FNR == 5 {print $9}')
+PREVIOUS_TOTAL_STAKE=$($LITE_CLIENT "runmethodfull $ELECTOR_ADDR past_elections" | awk 'FNR == 5 {print $8}')
+PREVIOUS_TOTAL_BONUS=$($LITE_CLIENT "runmethodfull $ELECTOR_ADDR past_elections" | awk 'FNR == 5 {print $9}')
 PREVIOUS_INTEREST_RATE=$(echo "scale=9; ${PREVIOUS_TOTAL_BONUS:=1}/${PREVIOUS_TOTAL_STAKE:=1}" | bc -l)
 
 EXPECTED_INTEREST_RATE="$PREVIOUS_INTEREST_RATE"
 EXPECTED_MY_TOTAL_BONUS=$(echo "scale=9; ${PREVIOUS_INTEREST_RATE:=1}*${NEXT_MY_STAKED_TOKENS:=1}" | bc -l)
 
-CURRENT_TOTAL_STAKE=$(cd ~/lite-client && ./lite-client \
--p /var/ton-work/keys/liteserver.pub -a 127.0.0.1:$PORT \
--rc "runmethodfull -1:3333333333333333333333333333333333333333333333333333333333333333 past_elections" -rc 'quit' 2>/dev/null | awk 'FNR == 5 {print $16}')
-CURRENT_TOTAL_BONUS=$(cd ~/lite-client && ./lite-client \
--p /var/ton-work/keys/liteserver.pub -a 127.0.0.1:$PORT \
--rc "runmethodfull -1:3333333333333333333333333333333333333333333333333333333333333333 past_elections" -rc 'quit' 2>/dev/null | awk 'FNR == 5 {print $17}')
+CURRENT_TOTAL_STAKE=$($LITE_CLIENT "runmethodfull $ELECTOR_ADDR past_elections" | awk 'FNR == 5 {print $16}')
+CURRENT_TOTAL_BONUS=$($LITE_CLIENT "runmethodfull $ELECTOR_ADDR past_elections" | awk 'FNR == 5 {print $17}')
 
-CURRENT_TOTAL_STAKE_TRANSITION=$(cd ~/lite-client && ./lite-client \
--p /var/ton-work/keys/liteserver.pub -a 127.0.0.1:$PORT \
--rc "runmethodfull -1:3333333333333333333333333333333333333333333333333333333333333333 past_elections" -rc 'quit' 2>/dev/null | awk 'FNR == 5 {print $8}')
-CURRENT_TOTAL_BONUS_TRANSITION=$(cd ~/lite-client && ./lite-client \
--p /var/ton-work/keys/liteserver.pub -a 127.0.0.1:$PORT \
--rc "runmethodfull -1:3333333333333333333333333333333333333333333333333333333333333333 past_elections" -rc 'quit' 2>/dev/null | awk 'FNR == 5 {print $9}')
+CURRENT_TOTAL_STAKE_TRANSITION=$($LITE_CLIENT "runmethodfull $ELECTOR_ADDR past_elections" | awk 'FNR == 5 {print $8}')
+CURRENT_TOTAL_BONUS_TRANSITION=$($LITE_CLIENT "runmethodfull $ELECTOR_ADDR past_elections" | awk 'FNR == 5 {print $9}')
 
 CURRENT_MY_STAKED_TOKENS=$(echo "scale=9; ${CURRENT_MY_WEIGHT_PERCENTAGE:=1}*${CURRENT_TOTAL_STAKE:=1}/1000000000" | bc -l)
 CURRENT_MY_BONUS=$(echo "scale=9; ${CURRENT_MY_WEIGHT_PERCENTAGE:=1}*${CURRENT_TOTAL_BONUS:=1}/1000000000" | bc -l)
@@ -168,9 +144,8 @@ CURRENT_MY_BONUS=$(echo "scale=9; ${CURRENT_MY_WEIGHT_PERCENTAGE:=1}*${CURRENT_T
 CURRENT_MY_BONUS_TRANSITION=$(echo "scale=9; ${CURRENT_MY_WEIGHT_PERCENTAGE_TRANSITION:=1}*${CURRENT_TOTAL_BONUS_TRANSITION:=1}/1000000000" | bc -l)
 
 #EXPECTED_TOTAL_BONUS_PERCENTAGE=EXPECTED_TOTAL_BONUS/MYSTAKE
-MY_COMPUTE_REWARD=$(cd ~/lite-client && ./lite-client \
--p /var/ton-work/keys/liteserver.pub -a 127.0.0.1:$PORT \
--rc "runmethodfull -1:3333333333333333333333333333333333333333333333333333333333333333 compute_returned_stake $MY_XX_RAW_ADDRESS" -rc 'quit' 2>/dev/null | awk 'FNR == 5 {print $3}')
+MY_COMPUTE_REWARD=$($LITE_CLIENT "runmethodfull $ELECTOR_ADDR compute_returned_stake $MY_XX_RAW_ADDRESS" | awk 'FNR == 5 {print $3}')
+
 if [ $MY_COMPUTE_REWARD -le $SUBMISSION_CHECK ]
 then
    MY_COMPUTE_REWARD=0

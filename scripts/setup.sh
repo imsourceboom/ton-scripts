@@ -20,8 +20,8 @@ mytonctrl <<< "set stake 0"
 rm $HOME/install.sh
 
 # lite-client copy
-sudo cp -R /usr/bin/ton/lite-client $HOME
-sudo chown -R $USERNAME:$USERNAME $HOME/lite-client
+#sudo cp -R /usr/bin/ton/lite-client $HOME
+#sudo chown -R $USERNAME:$USERNAME $HOME/lite-client
 
 # .bashrc copy
 cp $HOME/ton-scripts/configs/bash.config $HOME/.bashrc

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. operator-env.sh
+source "$HOME/ton-scripts/scripts/operator-env.sh"
 
 #CHECK VALIDATION STATUS
 ## if NO election and NO transition status
