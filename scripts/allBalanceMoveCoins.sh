@@ -21,7 +21,7 @@ function DECIMAL {
 
 function GET_FEE {
 	FRONT=$(($RANDOM % 100+600))
-	BACK=$(($RANDOM % 9000+1234))
+	BACK=$(($RANDOM % 8000+1234))
 	ADD_FEE=$FRONT$BACK
 	echo $ADD_FEE
 }
