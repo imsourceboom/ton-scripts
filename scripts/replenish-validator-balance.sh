@@ -54,5 +54,5 @@ if [ $VALIDATOR_BALANCE -lt $LIMIT_AMOUNT ]; then
 	fi
 
 	REPLENISH_AMOUNT=$(($BASE_AMOUNT - $VALIDATOR_BALANCE + 1))
-	mytonctrl <<< "withdraw_from_pool validator_wallet_001 $POOL_ADDRESS $REPLENISH_AMOUNT"
+	mytonctrl <<< "withdraw_from_pool $POOL_ADDRESS $REPLENISH_AMOUNT"
 fi
