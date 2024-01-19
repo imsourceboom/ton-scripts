@@ -2,6 +2,7 @@
 
 . env.sh
 
+sudo chmod 755 /var/ton-work/db/config.json
 PORT=$(cat /var/ton-work/db/config.json | jq -r ".control[0].port")
 TON_BUILD_DIR="/usr/bin/ton"
 KEYS_DIR="/var/ton-work/keys"

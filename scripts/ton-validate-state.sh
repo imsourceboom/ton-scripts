@@ -2,6 +2,7 @@
 
 . env.sh
 
+sudo chmod 755 /var/ton-work/db/config.json
 CONFIG_JSON=$(cat /var/ton-work/db/config.json)
 VALIDATORS_COUNT=$(echo $CONFIG_JSON | jq ".validators|length")
 

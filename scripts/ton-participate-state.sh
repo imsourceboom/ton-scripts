@@ -2,6 +2,7 @@
 
 . env.sh
 
+sudo chmod 755 /var/ton-work/db/config.json
 ELECTION_STATE=$(ton-election-state.sh)
 if [ $ELECTION_STATE != "ACTIVE" ]; then
 	echo "NOT_ELECTION"
