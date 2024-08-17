@@ -47,7 +47,7 @@ if [ $VALIDATOR_BALANCE -lt $LIMIT_AMOUNT ]; then
 		mytonctrl <<< "set stake 0"
 	fi
 
-	POOL_ADDRESS=$(mytonctrl <<< "pools_list" | grep "active" | awk '$3 >= 300000 {print $4}')
+	POOL_ADDRESS=$(mytonctrl <<< "pools_list" | grep "active" | awk '$3 >= 300000 {print $5}')
 	if [ "$POOL_ADDRESS" == "" ]; then
 		echo "NOT RETURN POOL STAKE BALANCE"
 		exit
