@@ -13,7 +13,7 @@ sudo apt update -y && sudo apt install git wget curl jq bc cron tmux -y
 
 # mytonctrl install
 wget https://raw.githubusercontent.com/ton-blockchain/mytonctrl/master/scripts/install.sh
-sudo bash install.sh -m full
+sudo bash install.sh -d -m validator
 sudo chmod 755 /var/ton-work/db/config.json
 #sudo chmod 777 $HOME/.local/share/mytonctrl
 mytonctrl <<< "set stake 0"
