@@ -7,5 +7,5 @@ BALANCE=$(mytonctrl <<< "wl" | grep "validator_wallet_001" | awk '{print $3}' | 
 
 if [ $BALANCE -lt $LIMIT ]; then
         MESSAGE="Insufficient Balance ! ${BALANCE} 💎"
-        $TG_SEND_ALAAM "unique" "$MESSAGE" 2>&1 > /dev/null
+        $TG_SEND_ALARM "unique" "$MESSAGE" 2>&1 > /dev/null
 fi
