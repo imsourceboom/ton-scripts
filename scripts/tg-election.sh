@@ -25,5 +25,5 @@ fi
 PARTICIPATE=$($SCRIPTS_DIR/ton-participate-state.sh)
 if [ $PARTICIPATE != "ACTIVE" ]; then
 	MESSAGE="‼️ Not in Election%0AElection END: $ELECTION_END_HUMAN"
-	$TG_SEND_ALARM "unique" "$MESSAGE" 2>&1 > /dev/null
+	$TG_SEND_ALARM "election" "$MESSAGE" 2>&1 > /dev/null
 fi

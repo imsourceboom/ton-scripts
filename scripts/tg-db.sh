@@ -6,5 +6,5 @@ DB=$(ton-remain-disk.sh | tr -d 'G')
 
 if [ $DB -le 50 ]; then
 	MESSAGE="💾 Remain Disk Space: ${DB}G"
-	$TG_SEND_ALARM "unique" "$MESSAGE" 2>&1 > /dev/null
+	$TG_SEND_ALARM "balance" "$MESSAGE" 2>&1 > /dev/null
 fi

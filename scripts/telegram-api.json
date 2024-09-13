@@ -1,5 +1,7 @@
 {
 	"telegram_bot_token": "",
-	"telegram_normal_chat_id": "",
-	"telegram_unique_chat_id": ""
+	"telegram_validate_chat_id": "",
+	"telegram_election_chat_id": "",
+	"telegram_balance_chat_id": "",
+	"telegram_db_chat_id": ""
 }
