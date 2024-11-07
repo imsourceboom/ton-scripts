@@ -15,7 +15,7 @@ GREEN_BACKGROUND='\e[42m'
 
 CHECK_ELECTION_STATUS=$($LITE_CLIENT "runmethodfull $ELECTOR_ADDR active_election_id" | awk 'FNR == 5 {print $3}')
 
-NODE_PUBKEY=$(mytonctrl <<< status fast | grep ADNL | grep local |  awk '{print $6}' | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g")
+NODE_PUBKEY=$(mytonctrl <<< status fast | grep ADNL | grep local | grep validator | awk '{print $6}' | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g")
 
 if [ "$CHECK_ELECTION_STATUS" != 0 ];
 then
