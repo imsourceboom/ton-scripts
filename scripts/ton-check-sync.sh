@@ -11,7 +11,7 @@ TIME_DIFF=0
 
 $CONSOLE "getstats"
 
-for i in $($CONSOLE "getstats" 2>&1 | grep time | awk '{print $2}');
+for i in $($CONSOLE "getstats" 2>&1 | grep -e unixtime -e masterchainblocktime | awk '{print $2}');
 do
 	TIME_DIFF=$((i - TIME_DIFF))
 done
