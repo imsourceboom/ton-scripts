@@ -50,9 +50,9 @@ then
    CHECK_ELECTION_SUBMISSION=0
 fi
 
-if [ "$JSON" == 0 ]; then
-. ~/node.operator.nt/configs/submission.sh
-fi
+#if [ "$JSON" == 0 ]; then
+#. ~/node.operator.nt/configs/submission.sh
+#fi
 
 CHECK_VALIDATION_STATUS_NEW_ADNL_KEY=$(echo "${GETCONFIG34}" | grep $NODE_PUBKEY | awk '{print $4}' | tr -d ')' | tr -d 'adnl_addr:x')
 CHECK_VALIDATION_STATUS_SECOND_NEW_ADNL_KEY=$(echo "${GETCONFIG34}" | grep $NODE_PUBKEY | awk '{print $4}' | tr -d ')' | tr -d 'adnl_addr:x')
