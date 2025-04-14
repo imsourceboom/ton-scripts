@@ -2,7 +2,7 @@
 
 source "$HOME/ton-scripts/scripts/env.sh"
 
-LIMIT=90
+LIMIT=50
 BALANCE=$(mytonctrl <<< "wl" | grep "validator_wallet_001" | awk '{print $3}' | cut -d '.' -f 1)
 
 if [ $BALANCE -lt $LIMIT ]; then
